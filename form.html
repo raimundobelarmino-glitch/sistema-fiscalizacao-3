@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Operação de Fiscalização</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "storage": "./storage.js",
+        "form-ui-handler": "./form-ui-handler.js",
+        "form-utils.js": "./form-utils.js"
+      }
+    }
+    </script>
+    <script type="module" src="form-handler.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Relatório de Operação de Fiscalização</h1>
+    </header>
+    <main>
+        <div id="operation-info" class="report-card-body" style="background-color: #e9ecef; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem;">
+            <!-- Operation info will be loaded here by JS -->
+        </div>
+        <form id="report-form">
+            <div id="step-1" class="form-step">
+                <fieldset>
+                    <legend>1. Identificação do Veículo</legend>
+                    <div class="radio-group-horizontal">
+                        <label><input type="radio" name="id-type" value="Placa"> Placa</label>
+                        <label><input type="radio" name="id-type" value="Chassi"> Chassi</label>
+                        <label><input type="radio" name="id-type" value="Outro"> Outro</label>
+                    </div>
+                    <label for="id-value" id="id-value-label">Placa:</label>
+                    <input type="text" id="id-value" name="id-value" placeholder="Digite a identificação" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>2. Tipo de Veículo</legend>
+                    <div class="image-selector-group">
+                        <label class="image-selector">
+                            <input type="radio" name="vehicle-type" value="4 rodas">
+                            <img src="/car.png" alt="4 rodas">
+                            <span>4 rodas</span>
+                        </label>
+                        <label class="image-selector">
+                            <input type="radio" name="vehicle-type" value="2 ou 3 rodas">
+                            <img src="/motorcycle.png" alt="2 ou 3 rodas">
+                            <span>2 ou 3 rodas</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>3. Condutor</legend>
+                    <label>Sexo:</label>
+                    <div class="image-selector-group">
+                       <label class="image-selector">
+                           <input type="radio" name="driver-gender" value="Masculino">
+                           <img src="/male.png" alt="Masculino">
+                           <span>Masculino</span>
+                       </label>
+                       <label class="image-selector">
+                           <input type="radio" name="driver-gender" value="Feminino">
+                           <img src="/female.png" alt="Feminino">
+                           <span>Feminino</span>
+                       </label>
+                   </div>
+                    <label for="driver-age">Idade:</label>
+                    <input type="number" id="driver-age" name="driver-age" min="18" max="120" placeholder="Ex: 35">
+                    
+                </fieldset>
+
+                <fieldset>
+                    <legend>4. Teste de Etilômetro</legend>
+                    <label>Foi realizado o teste?</label>
+                    <div class="radio-group-vertical">
+                        <label><input type="radio" name="breathalyzer" value="Não"> Não</label>
+                        <label><input type="radio" name="breathalyzer" value="Passivo"> Passivo</label>
+                        <label><input type="radio" name="breathalyzer" value="Ativo"> Ativo</label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>5. Observações</legend>
+                    <textarea id="observations" name="observations" rows="5" placeholder="Descreva aqui informações adicionais..."></textarea>
+                </fieldset>
+            </div>
+
+            <div id="step-2" class="form-step hidden">
+                <fieldset>
+                    <legend>6. Dados da Realização do Teste</legend>
+                    <label for="abordador">Abordador:</label>
+                    <input type="text" id="abordador" name="abordador" placeholder="Nome do agente">
+
+                    <label for="condutor-nome">Condutor abordado:</label>
+                    <input type="text" id="condutor-nome" name="condutor-nome" placeholder="Nome completo sem abreviações">
+
+                    <label for="condutor-cpf">CPF do Condutor Abordado:</label>
+                    <input type="text" id="condutor-cpf" name="condutor-cpf" placeholder="000.000.000-00">
+
+                    <label for="teste-ativo-num">Número do Teste Ativo:</label>
+                    <input type="text" id="teste-ativo-num" name="teste-ativo-num" inputmode="numeric" placeholder="Somente números">
+                    
+                    <label>Resultado:</label>
+                    <div class="radio-group-vertical" id="resultado-options">
+                        <label><input type="radio" name="resultado-tipo" value="Negativo"> Negativo (Sem infração)</label>
+                        <label><input type="radio" name="resultado-tipo" value="165A"> Recusa sem sintomas (Art. 165-A)</label>
+                        <label><input type="radio" name="resultado-tipo" value="TC"> Recusa com sintomas (Termo de Constatação)</label>
+                        <label><input type="radio" name="resultado-tipo" value="165"> Infração (Art. 165)</label>
+                         <div id="valor-medido-container">
+                            <input type="text" id="resultado-valor" name="resultado-valor" inputmode="decimal" placeholder="Digite o valor medido. Ex: 0,34">
+                            <input type="hidden" id="resultado-teste" name="resultado-teste">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div id="step-3" class="form-step hidden">
+                 <fieldset>
+                    <legend>7. Autuações Realizadas</legend>
+                    <div id="infraction-adder">
+                        <label for="ctb-search">Pesquisar Artigo do CTB:</label>
+                        <input type="text" id="ctb-search" name="ctb-search" placeholder="Digite o nº ou texto do artigo. Ex: 165" autocomplete="off">
+                        <div id="ctb-suggestions" class="hidden"></div>
+                    </div>
+                    <div id="quick-add-infractions" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                         <button type="button" class="secondary" id="add-pix-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-top: 0;">Adicionar PIX</button>
+                    </div>
+                    <div id="infractions-list-container">
+                        <h4>Infrações Adicionadas:</h4>
+                        <ul id="infractions-list">
+                            <!-- Infrações will be added here by JS -->
+                        </ul>
+                    </div>
+                    <input type="hidden" id="infractions-data" name="infractions-data">
+                </fieldset>
+            </div>
+
+            <div class="form-navigation">
+                <button type="button" id="prev-btn" class="secondary hidden">Voltar</button>
+                <button type="button" id="next-btn">Próximo</button>
+                <button type="submit" id="submit-btn" class="hidden">Salvar Relatório</button>
+                <button type="submit" id="save-btn" class="hidden">Salvar Relatório Rápido</button>
+            </div>
+            <button type="reset" class="secondary">Limpar Formulário</button>
+        </form>
+
+        <section id="success-message" class="hidden">
+            <h2>Relatório Salvo com Sucesso!</h2>
+            <p>Seus dados foram armazenados. Você pode registrar um novo relatório ou voltar para o menu principal.</p>
+            <div class="success-actions">
+                 <button id="new-report-btn">Anotar Novo Relatório</button>
+                 <a href="index.html" class="secondary-link-btn">Voltar ao Início</a>
+            </div>
+        </section>
+    </main>
+    <div class="footer-nav">
+         <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>

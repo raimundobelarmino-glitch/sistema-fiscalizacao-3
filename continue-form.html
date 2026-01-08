@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuar Cadastro de Fiscalização</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "storage": "./storage.js",
+            "form-ui-handler": "./form-ui-handler.js",
+            "form-utils": "./form-utils.js"
+          }
+        }
+    </script>
+    <script type="module" src="continue-form.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Continuar Cadastro</h1>
+        <p>Busque por uma placa para adicionar autos de infração.</p>
+    </header>
+    <main>
+        <section id="search-section">
+            <fieldset>
+                <legend>Buscar Cadastro</legend>
+                <div class="filter-group">
+                    <label for="search-plate">Placa do Veículo:</label>
+                    <input type="text" id="search-plate" placeholder="AAA1B23">
+                </div>
+                <button type="button" id="search-btn">Buscar</button>
+                <div id="search-error" class="hidden" style="margin-top: 1rem;">
+                    <p id="search-error-message" style="color: red; margin-bottom: 0.5rem;"></p>
+                    <button type="button" id="register-new-btn" class="secondary hidden" style="width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem;">Cadastrar Novo Veículo com esta Placa</button>
+                </div>
+            </fieldset>
+        </section>
+
+        <section id="individual-reports-section">
+            <fieldset>
+                <legend>Ou Selecione um Cadastro Individual da Operação Atual</legend>
+                <div id="individual-reports-container" class="filtered-reports-container">
+                    <!-- Individual reports for the current operation will be listed here -->
+                </div>
+                <p id="no-reports-message" class="hidden">Nenhum cadastro encontrado para esta operação ainda.</p>
+            </fieldset>
+        </section>
+
+        <form id="report-form" class="hidden">
+            <input type="hidden" id="report-id" name="report-id">
+            
+            <fieldset>
+                <legend>Dados do Cadastro Original</legend>
+                <div class="report-card-body">
+                    <p><strong>Regional:</strong> <span id="display-regional"></span></p>
+                    <p><strong>Município:</strong> <span id="display-municipio-acao"></span></p>
+                    <p><strong>Operação:</strong> <span id="display-operation-type"></span></p>
+                    <p><strong>Veículo:</strong> <span id="display-id-value"></span> (<span id="display-vehicle-type"></span>)</p>
+                    <p><strong>Condutor:</strong> <span id="display-condutor-nome"></span></p>
+                    <p><strong>CPF:</strong> <span id="display-condutor-cpf"></span></p>
+                    <p><strong>Sexo/Idade:</strong> <span id="display-driver-gender"></span>, <span id="display-driver-age"></span> anos</p>
+                    <p><strong>Observações Originais:</strong> <span id="display-observations"></span></p>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Complementar Dados do Condutor</legend>
+                <label for="condutor-nome">Nome do Condutor:</label>
+                <input type="text" id="condutor-nome" name="condutor-nome" placeholder="Nome completo sem abreviações">
+
+                <label for="condutor-cpf">CPF do Condutor:</label>
+                <input type="text" id="condutor-cpf" name="condutor-cpf" placeholder="000.000.000-00">
+                
+            </fieldset>
+            
+            <fieldset>
+                <legend>Adicionar Autuações Realizadas</legend>
+                <div id="infraction-adder">
+                    <label for="ctb-search">Pesquisar Artigo do CTB:</label>
+                    <input type="text" id="ctb-search" name="ctb-search" placeholder="Digite o nº ou texto do artigo. Ex: 165" autocomplete="off">
+                    <div id="ctb-suggestions" class="hidden"></div>
+                </div>
+                <div id="infractions-list-container">
+                    <h4>Infrações Adicionadas:</h4>
+                    <ul id="infractions-list">
+                        <!-- Infrações will be added here by JS -->
+                    </ul>
+                </div>
+                <input type="hidden" id="infractions-data" name="infractions-data">
+            </fieldset>
+
+             <fieldset>
+                <legend>Situação do Veículo Após Autuação</legend>
+                <div class="radio-group-vertical">
+                    <label><input type="radio" name="vehicle-disposition" value="N/A" checked> Nenhuma ação específica</label>
+                    <label><input type="radio" name="vehicle-disposition" value="Removido"> Veículo Removido</label>
+                    <label><input type="radio" name="vehicle-disposition" value="Liberado Art. 270 § 2º"> Liberado (Art. 270, § 2º CTB)</label>
+                    <label><input type="radio" name="vehicle-disposition" value="Liberado Art. 271 §9º-A"> Liberado (Art. 271, §9º-A CTB)</label>
+                    <label><input type="radio" name="vehicle-disposition" value="Liberado"> Liberado</label>
+                    <label><input type="radio" name="vehicle-disposition" value="Encaminhado a PC"> Encaminhado à PC</label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Ocorrência Policial / Status do Veículo</legend>
+                <div class="radio-group-vertical">
+                    <label><input type="checkbox" name="vehicle-recovered" value="true"> Veículo recuperado (produto de furto/roubo)</label>
+                </div>
+
+                <label style="margin-top:1rem;">Houve registro de ocorrência criminal?</label>
+                <div class="radio-group-vertical" id="criminal-occurrence-group">
+                    <label><input type="radio" name="criminal-occurrence" value="Nenhuma" checked> Nenhuma</label>
+                    <label><input type="radio" name="criminal-occurrence" value="Art. 306 CTB"> Art. 306 CTB (Embriaguez ao volante - Crime)</label>
+                    <label><input type="radio" name="criminal-occurrence" value="Art. 310 CTB"> Art. 310 CTB (Permitir/Entregar a pessoa não habilitada gerando perigo)</label>
+                    <label><input type="radio" name="criminal-occurrence" value="Art. 311 CP"> Art. 311 CP (Adulteração de sinal identificador)</label>
+                    <label class="radio-with-text">
+                        <input type="radio" name="criminal-occurrence" value="Outros"> Outros
+                        <input type="text" id="criminal-occurrence-other" name="criminal-occurrence-other" placeholder="Especifique qual" class="hidden" style="margin-left: 0.5rem; flex-grow: 1;">
+                    </label>
+                </div>
+            </fieldset>
+
+             <fieldset>
+                <legend>Observações Adicionais</legend>
+                <textarea id="additional-observations" name="additional-observations" rows="4" placeholder="Adicione novas observações aqui..."></textarea>
+            </fieldset>
+
+            <button type="submit" id="update-btn">Atualizar Cadastro</button>
+            <button type="button" id="cancel-btn" class="secondary">Cancelar</button>
+        </form>
+
+        <section id="success-message" class="hidden">
+            <h2>Cadastro Atualizado com Sucesso!</h2>
+            <p>Os autos de infração foram adicionados. Você pode buscar outra placa ou voltar para o menu principal.</p>
+            <div class="success-actions">
+                 <button id="new-search-btn">Buscar Outra Placa</button>
+                 <a href="index.html" class="secondary-link-btn">Voltar ao Início</a>
+            </div>
+        </section>
+    </main>
+    <div class="footer-nav">
+         <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Operação</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="select-operation.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Continuar Cadastro</h1>
+        <p>Selecione a operação em que deseja continuar trabalhando.</p>
+    </header>
+    <main>
+        <section id="active-session-section" class="hidden">
+             <div class="report-card">
+                 <div class="report-card-header">
+                    <h3>Sessão Ativa Detectada</h3>
+                 </div>
+                 <div id="active-session-info" class="report-card-body">
+                    <!-- Active session info will be displayed here -->
+                 </div>
+                 <div class="report-card-actions">
+                     <button id="continue-active-session-btn">Continuar Nesta Operação</button>
+                 </div>
+            </div>
+        </section>
+
+        <section id="select-operation-section">
+             <fieldset>
+                <legend>Filtros para Buscar Operação</legend>
+                <div id="filters">
+                    <div class="filter-group">
+                        <label for="filter-start-date">De:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Até:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-operation">Operação:</label>
+                        <select id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                     <div class="filter-buttons">
+                        <button type="button" id="apply-filters-btn">Aplicar Filtros</button>
+                        <button type="button" id="clear-filters-btn" class="secondary">Limpar Filtros</button>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Operações Encontradas</legend>
+                <div id="operations-list">
+                    <!-- List of recent operations will be populated here -->
+                </div>
+                <p id="no-operations-message" class="hidden">Nenhuma operação recente encontrada. Por favor, inicie um novo cadastro primeiro.</p>
+            </fieldset>
+        </section>
+
+    </main>
+    <div class="footer-nav">
+         <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>

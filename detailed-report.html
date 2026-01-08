@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Detalhado de Abordagens</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/table-to-excel/dist/tableToExcel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script type="module" src="detailed-report.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Relatório Detalhado de Abordagens Veiculares</h1>
+    </header>
+    <main>
+        <div class="report-container">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div id="filters">
+                    <div class="filter-group">
+                        <label for="filter-start-date">De:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Até:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-regional">Regional:</label>
+                        <select id="filter-regional">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-operation">Operação:</label>
+                        <select id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-gender">Sexo:</label>
+                        <select id="filter-gender">
+                            <option value="">Ambos</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="filter-buttons">
+                        <button type="button" id="apply-filters-btn">Aplicar Filtros</button>
+                        <button type="button" id="clear-filters-btn" class="secondary">Limpar Filtros</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <section id="summary-report" class="report-section">
+                <h2>Totais (Resumo Geral)</h2>
+                <div id="summary-content">
+                    <p>Aplique os filtros para gerar o resumo.</p>
+                </div>
+            </section>
+
+            <section id="detailed-report" class="report-section">
+                <div class="report-section-header">
+                     <h2>Relatório Detalhado por Veículo Abordado</h2>
+                     <div class="report-card-actions" style="justify-content: flex-end; margin-top: 0;">
+                        <button id="export-excel-btn" class="secondary hidden">Exportar Excel</button>
+                        <button id="export-pdf-btn" class="secondary hidden">Exportar PDF</button>
+                        <button id="share-whatsapp-btn" class="success-button hidden">Compartilhar Resumo</button>
+                     </div>
+                </div>
+                <div class="table-container">
+                    <table id="detailed-table">
+                        <thead>
+                            <tr>
+                                <th>Placa</th>
+                                <th>Data</th>
+                                <th>Município</th>
+                                <th>Regional</th>
+                                <th>Tipo de Veículo</th>
+                                <th>Condutor</th>
+                                <th>Sexo</th>
+                                <th>CPF</th>
+                                <th>Resultado Etilômetro</th>
+                                <th>Infração Art. 165</th>
+                                <th>Outras Infrações</th>
+                                <th>Autos Lavrados</th>
+                                <th>CNH Recolhida</th>
+                                <th>CRLV-e Recolhido</th>
+                                <th>Situação Final</th>
+                                <th>Agente Responsável</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailed-table-body">
+                            <!-- Data will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                 <p id="no-data-message" class="hidden">Nenhum relatório encontrado com os filtros aplicados.</p>
+            </section>
+        </div>
+    </main>
+    <div class="footer-nav">
+        <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>

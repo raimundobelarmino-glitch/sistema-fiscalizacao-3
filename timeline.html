@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linha do Tempo - Estatísticas</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "chart.js": "https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.js/+esm"
+      }
+    }
+    </script>
+    <script type="module" src="timeline.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Linha do Tempo das Operações</h1>
+        <p>Acompanhe a evolução das estatísticas de fiscalização ao longo do tempo.</p>
+    </header>
+    <main>
+        <div class="report-container">
+             <fieldset>
+                <legend>Filtros</legend>
+                <div id="filters">
+                    <div class="filter-group">
+                        <label for="filter-start-date">De:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Até:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-group">
+                         <label for="filter-regional">Regional:</label>
+                        <select id="filter-regional">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-municipio">Município:</label>
+                        <select id="filter-municipio">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-operation">Operação:</label>
+                        <select id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                     <div class="filter-buttons">
+                        <button type="button" id="apply-filters-btn">Gerar Gráficos</button>
+                        <button type="button" id="clear-filters-btn" class="secondary">Limpar Filtros</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div id="charts-container">
+                <!-- Charts will be rendered here -->
+            </div>
+             <p id="no-data-message" class="hidden">Não há dados suficientes para gerar os gráficos com os filtros selecionados.</p>
+        </div>
+    </main>
+    <div class="footer-nav">
+         <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>
+

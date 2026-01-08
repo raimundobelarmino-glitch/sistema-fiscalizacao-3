@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Operação - Relatório Consolidado</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "report-aggregator": "./report-aggregator.js"
+      }
+    }
+    </script>
+    <script type="module" src="final-report.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Finalizar Operação</h1>
+        <p>Consolide os dados de uma operação e adicione as informações finais.</p>
+    </header>
+    <main>
+        <div class="report-container">
+            <fieldset>
+                <legend>Selecione uma Operação Recente para Finalizar</legend>
+                 <div id="operations-list" class="report-container" style="max-height: 400px; overflow-y: auto; padding: 1rem; background-color: #f8f9fa;">
+                    <!-- List of recent operations will be populated here by JS -->
+                </div>
+            </fieldset>
+
+             <fieldset>
+                <legend>Ou Filtre Manualmente a Operação</legend>
+                <div id="filters">
+                    <div class="filter-group">
+                        <label for="filter-start-date">De:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Até:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-group">
+                         <label for="filter-regional">Regional:</label>
+                        <select id="filter-regional">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-operation">Operação:</label>
+                        <select id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                     <div class="filter-buttons">
+                        <button type="button" id="apply-filters-btn">Carregar Dados</button>
+                        <button type="button" id="clear-filters-btn" class="secondary">Limpar</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <form id="final-report-form">
+                <!-- Section 1: Identificação -->
+                <fieldset>
+                    <legend>1. Identificação da Ação</legend>
+                    <label>ID SEI: <input type="text" id="id-sei" name="id-sei"></label>
+                    <label>Ação desenvolvida: <input type="text" id="acao-desenvolvida" name="acao-desenvolvida"></label>
+                    <label>Relatório SEI!: <input type="text" id="relatorio-sei" name="relatorio-sei"></label>
+                    <label>REGIONAL: <input type="text" id="regional" name="regional" readonly></label>
+                    <label>Observação (Chefia/Ação): <textarea id="observacao" name="observacao"></textarea></label>
+                    <label>Data: <input type="text" id="data" name="data" readonly></label>
+                    <label>Município: <input type="text" id="municipio" name="municipio"></label>
+                    <label>ENDEREÇO: <input type="text" id="endereco" name="endereco"></label>
+                </fieldset>
+
+                <!-- Section 2: Veículos -->
+                <fieldset>
+                    <legend>2. Quantidade de Veículos Abordados</legend>
+                    <label>2 ou 3 rodas: <input type="number" id="veiculos-2-rodas" name="veiculos-2-rodas" readonly></label>
+                    <label>4 rodas OU MAIS: <input type="number" id="veiculos-4-rodas" name="veiculos-4-rodas" readonly></label>
+                    <label>Total: <input type="number" id="veiculos-total" name="veiculos-total" readonly></label>
+                </fieldset>
+
+                <!-- Section 3: Condutores -->
+                <fieldset>
+                    <legend>3. Perfil dos Condutores Abordados</legend>
+                    <label>ABORDAGEM MASCULINA: <input type="number" id="abordagem-masculina" name="abordagem-masculina" readonly></label>
+                    <label>ABORDAGEM FEMININA: <input type="number" id="abordagem-feminina" name="abordagem-feminina" readonly></label>
+                </fieldset>
+
+                <!-- Section 4: Etilômetro -->
+                <fieldset>
+                    <legend>4. Etilômetro / Álcool</legend>
+                    <label>&lt; 0,04 mg/L (Resultados Negativos): <input type="number" id="etilometro-negativo" name="etilometro-negativo" readonly></label>
+                    <label>&gt;0,05 à 0,33 mg/L: <input type="number" id="etilometro-infracao" name="etilometro-infracao" readonly></label>
+                    <label>&gt; 0,33 mg/L (Crime): <input type="number" id="etilometro-crime" name="etilometro-crime" readonly></label>
+                    <label>Recusa (165-A): <input type="number" id="recusa-165a" name="recusa-165a" readonly></label>
+                    <label>Recusa (TC) Masculino: <input type="number" id="recusa-tc-masculino" name="recusa-tc-masculino" readonly></label>
+                    <label>Recusa (TC) Feminino: <input type="number" id="recusa-tc-feminino" name="recusa-tc-feminino" readonly></label>
+                    <label>TOTAL DE RECUSA: <input type="number" id="recusa-total" name="recusa-total" readonly></label>
+                </fieldset>
+
+                <!-- Section 5: Art. 165 -->
+                <fieldset>
+                    <legend>5. Art. 165 por Tipo de Veículo</legend>
+                    <label>165 - 2 ou 3 rodas: <input type="number" id="art165-2-rodas" name="art165-2-rodas" readonly></label>
+                    <label>165 - 4 rodas: <input type="number" id="art165-4-rodas" name="art165-4-rodas" readonly></label>
+                </fieldset>
+
+                <!-- Section 6: Remoções -->
+                <fieldset>
+                    <legend>6. Veículos Removidos</legend>
+                    <label>Remoção 2 ou 3 rodas: <input type="number" id="remocao-2-rodas" name="remocao-2-rodas" readonly></label>
+                    <label>Remoção 4 rodas: <input type="number" id="remocao-4-rodas" name="remocao-4-rodas" readonly></label>
+                </fieldset>
+
+                <!-- Section 7: Penalidades e Infrações por Artigo -->
+                <fieldset>
+                    <legend>7. Penalidades e Infrações por Artigo</legend>
+                    <div id="infractions-by-article" class="infractions-grid"></div>
+                </fieldset>
+
+                <!-- Section 8: Totalizadores -->
+                <fieldset>
+                    <legend>8. Totalizadores</legend>
+                    <label>TOTAL DE AIT's LAVRADOS: <input type="number" id="total-aits" name="total-aits" readonly></label>
+                    <label>FURTO/ROUBO: <input type="number" id="furto-roubo" name="furto-roubo" readonly></label>
+                    <label>ADULTERAÇÕES: <input type="number" id="adulteracoes" name="adulteracoes" value="0"></label>
+                </fieldset>
+
+                <!-- Section 9: Idade -->
+                <fieldset>
+                    <legend>9. Perfil Etário dos Abordados</legend>
+                    <label>IDADE ENTRE 0-17: <input type="number" id="idade-0-17" name="idade-0-17" readonly></label>
+                    <label>IDADE ENTRE 18-27: <input type="number" id="idade-18-27" name="idade-18-27" readonly></label>
+                    <label>IDADE ENTRE 28-37: <input type="number" id="idade-28-37" name="idade-28-37" readonly></label>
+                    <label>IDADE ENTRE 38-47: <input type="number" id="idade-38-47" name="idade-38-47" readonly></label>
+                    <label>IDADE ENTRE 48-57: <input type="number" id="idade-48-57" name="idade-48-57" readonly></label>
+                    <label>IDADE ENTRE 58+: <input type="number" id="idade-58-mais" name="idade-58-mais" readonly></label>
+                    <label>TOTAL DE ABORDAGENS POR IDADE: <input type="number" id="idade-total" name="idade-total" readonly></label>
+                </fieldset>
+
+                 <!-- Section 10: Documentação -->
+                <fieldset>
+                    <legend>10. Documentação</legend>
+                    <label>CNH/ACC/PPD: <input type="number" id="doc-cnh" name="doc-cnh" readonly></label>
+                    <label>CRLV/CRV: <input type="number" id="doc-crlv" name="doc-crlv" readonly></label>
+                </fieldset>
+                
+                <button type="button" id="save-final-report-btn" class="success-button">Salvar Operação Finalizada</button>
+            </form>
+
+            <section id="success-message" class="hidden">
+                <h2>Operação Salva com Sucesso!</h2>
+                <p>A operação consolidada foi armazenada. Você pode visualizá-la na tela de "Operações Finalizadas".</p>
+                <div class="success-actions">
+                     <a href="final-reports-list.html" class="secondary-link-btn">Ver Operações Finalizadas</a>
+                     <a href="index.html" class="secondary-link-btn">Voltar ao Início</a>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div class="footer-nav">
+         <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>

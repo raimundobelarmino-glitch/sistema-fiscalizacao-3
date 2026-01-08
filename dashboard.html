@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Operações</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "chart.js": "https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.js/+esm",
+        "html2canvas": "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/+esm"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1><i class="fas fa-chart-line me-3"></i>Dashboard de Operações</h1>
+                    <p class="mb-0">Estatísticas e Monitoramento</p>
+                </div>
+                <div class="col-md-6 text-md-end mt-2 mt-md-0">
+                    <div class="btn-group me-2">
+                        <button class="btn btn-sm btn-light" id="share-dashboard-btn"><i class="fas fa-share-alt me-2"></i>Compartilhar Resumo</button>
+                        <button class="btn btn-sm btn-light" id="export-pdf-btn"><i class="fas fa-file-pdf me-2"></i>Exportar PDF</button>
+                    </div>
+                    <div class="d-inline-block bg-white text-dark p-2 rounded">
+                        <i class="fas fa-calendar-alt me-2 text-primary"></i>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="dashboard-content-to-export">
+        <!-- Filtros -->
+        <div class="container mt-4">
+            <div class="filter-bar">
+                <div id="filters" class="row g-3 align-items-end">
+                    <div class="col-md-2 col-sm-6">
+                        <label for="filter-start-date" class="form-label">Data Inicial</label>
+                        <input type="date" class="form-control" id="filter-start-date">
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <label for="filter-end-date" class="form-label">Data Final</label>
+                        <input type="date" class="form-control" id="filter-end-date">
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <label for="filter-regional" class="form-label">Regional</label>
+                        <select class="form-select" id="filter-regional">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <label for="filter-operation" class="form-label">Operação</label>
+                        <select class="form-select" id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <label for="filter-municipio" class="form-label">Município</label>
+                        <select class="form-select" id="filter-municipio">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <button class="btn btn-filter w-100" id="apply-filters-btn">
+                            <i class="fas fa-filter me-2"></i>Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas Principais -->
+        <div class="container mt-4">
+            <div class="row g-4" id="stats-cards-container">
+                <!-- Stat cards will be dynamically generated here -->
+            </div>
+        </div>
+
+        <!-- Gráficos e Visualizações -->
+        <div class="container mt-4">
+            <div class="row g-4">
+                <!-- Gráfico 1: Abordagens por Gênero -->
+                <div class="col-lg-6">
+                    <div class="chart-container">
+                        <h4 class="section-title"><i class="fas fa-chart-pie me-2"></i>Abordagens por Gênero e Veículo</h4>
+                        <canvas id="genderVehicleChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Gráfico 2: Distribuição de Infrações -->
+                <div class="col-lg-6">
+                    <div class="chart-container">
+                        <h4 class="section-title"><i class="fas fa-chart-bar me-2"></i>Top 5 Infrações Registradas</h4>
+                        <canvas id="infractionsChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Detalhes da Operação -->
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h4 class="section-title"><i class="fas fa-list me-2"></i>Resumo por Regional</h4>
+                        <div class="table-responsive">
+                            <table class="summary-table">
+                                <thead>
+                                    <tr>
+                                        <th>Regional</th>
+                                        <th>AÇÕES</th>
+                                        <th>ABORDAGEM</th>
+                                        <th>TESTE</th>
+                                        <th>EMBRIAGUEZ</th>
+                                        <th>CONDUZIDOS</th>
+                                        <th>INABILITADO</th>
+                                        <th>AUTUAÇÕES</th>
+                                        <th>REMOÇÃO</th>
+                                        <th>FURTO/ROUBO</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="regional-summary-body">
+                                    <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Sistema de Fiscalização de Trânsito. Todos os direitos reservados.</p>
+            <a href="index.html" class="back-link-bottom mt-3">Voltar ao Menu Principal</a>
+        </div>
+    </footer>
+
+    <script type="module" src="dashboard.js"></script>
+</body>
+</html>

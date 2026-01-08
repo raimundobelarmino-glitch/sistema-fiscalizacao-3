@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios de Fiscalização</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/table-to-excel/dist/tableToExcel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "ctb-data": "./ctb.js"
+      }
+    }
+    </script>
+    <script type="module" src="reports.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Relatórios de Fiscalização</h1>
+    </header>
+    <main>
+        <div class="report-container">
+             <fieldset>
+                <legend>Filtros</legend>
+                <div id="filters">
+                    <div class="filter-group">
+                        <label for="filter-start-date">De:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Até:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-group">
+                         <label for="filter-regional">Regional:</label>
+                        <select id="filter-regional">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-operation">Operação:</label>
+                        <select id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-gender">Sexo:</label>
+                        <select id="filter-gender">
+                            <option value="">Ambos</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-infraction">Busca por Autuação:</label>
+                        <input type="text" id="filter-infraction" placeholder="Ex: 165, embriaguez...">
+                    </div>
+                     <div class="filter-buttons">
+                        <button type="button" id="apply-filters-btn">Aplicar Filtros</button>
+                        <button type="button" id="clear-filters-btn" class="secondary">Limpar Filtros</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <section id="aggregated-report" class="report-section">
+                <h2>Relatório Agregado de Autuações</h2>
+                <div id="aggregated-content">
+                    <p>Aplique os filtros para gerar o relatório.</p>
+                </div>
+                <div id="aggregated-actions" class="report-card-actions hidden">
+                    <button class="copy-report-btn secondary">Copiar Resumo</button>
+                    <button class="export-pdf-btn secondary">Exportar PDF</button>
+                    <button class="export-excel-btn secondary">Exportar Excel</button>
+                    <button class="share-aggregated-report-btn success-button">Compartilhar</button>
+                </div>
+            </section>
+
+            <section id="individual-reports" class="report-section">
+                <h2>Relatórios Individuais por Veículo</h2>
+                <div id="filtered-reports-container">
+                    <p>Aplique os filtros para ver os relatórios.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div class="footer-nav">
+         <a href="index.html" class="back-link-bottom">&larr; Voltar para o Início</a>
+    </div>
+</body>
+</html>

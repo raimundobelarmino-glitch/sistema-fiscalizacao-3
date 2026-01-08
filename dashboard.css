@@ -1,0 +1,135 @@
+:root {
+    --primary-color: #1a237e;
+    --secondary-color: #283593;
+    --accent-color: #5c6bc0;
+    --light-color: #e8eaf6;
+    --danger-color: #e53935;
+    --success-color: #43a047;
+}
+
+body {
+    background-color: #f5f7fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border-left: 5px solid var(--accent-color);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 10px 0;
+    color: var(--secondary-color);
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 25px;
+    height: 100%;
+}
+
+.section-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.filter-bar {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
+
+.summary-table th, .summary-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.summary-table th {
+    background-color: var(--light-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.summary-table tbody tr:hover {
+    background-color: #f9f9ff;
+}
+
+.btn-filter {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+.btn-filter:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.footer {
+    background: var(--primary-color);
+    color: white;
+    padding: 20px 0;
+    margin-top: 30px;
+}
+
+.back-link-bottom {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    background-color: var(--light-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.back-link-bottom:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+

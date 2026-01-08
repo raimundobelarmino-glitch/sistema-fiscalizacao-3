@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório por Município</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/table-to-excel/dist/tableToExcel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script type="module" src="municipio-report.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Relatório por Município</h1>
+        <p>Resumo de ações, abordagens e autuações por município.</p>
+    </header>
+    <main>
+        <div class="report-container">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div id="filters">
+                    <div class="filter-group">
+                        <label for="filter-start-date">De:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Até:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-regional">Regional:</label>
+                        <select id="filter-regional">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-operation">Operação:</label>
+                        <select id="filter-operation">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-buttons">
+                        <button type="button" id="apply-filters-btn">Gerar Relatório</button>
+                        <button type="button" id="clear-filters-btn" class="secondary">Limpar Filtros</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <section id="report-section" class="report-section">
+                <div class="report-section-header">
+                     <h2>Relatório por Município</h2>
+                     <div class="report-card-actions" style="justify-content: flex-end; margin-top: 0;">
+                        <button id="export-excel-btn" class="secondary hidden">Exportar Excel</button>
+                        <button id="export-pdf-btn" class="secondary hidden">Exportar PDF</button>
+                        <button id="share-whatsapp-btn" class="success-button hidden">Compartilhar Resumo</button>
+                     </div>
+                </div>
+                <div class="table-container">
+                    <table id="municipio-table">
+                        <thead>
+                            <tr>
+                                <th>MUNICÍPIO</th>
+                                <th>AÇÕES</th>
+                                <th>ABORDAGEM</th>
+                                <th>TESTE</th>
+                                <th>EMBRIAGUEZ</th>
+                                <th>CONDUZIDOS (CRIME)</th>
+                                <th>PIX</th>
+                                <th>INABILITADO</th>
+                                <th>AUTUAÇÕES</th>
+                                <th>REMOÇÃO</th>
+                                <th>FURTO/ROUBO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="municipio-table-body">
+                            <!-- Data will be populated by JS -->
+                        </tbody>
+                        <tfoot id="municipio-table-foot">
+                            <!-- Totals will be populated here -->
+                        </tfoot>
+                    </table>
+                </div>
+                 <p id="no-data-message" class="hidden">Nenhum relatório encontrado com os filtros aplicados.</p>
+                 <small style="margin-top: 1rem; display: block; color: var(--secondary-color);">
+                    *CONDUZIDOS (CRIME): Inclui crimes de trânsito como Art. 306, 310, 311, ou recusa ao teste com Termo de Constatação.<br>
+                    **AUTUAÇÕES: Total de autos de infração de trânsito lavrados.
+                 </small>
+            </section>
+        </div>
+    </main>
+    <div class="footer-nav">
+        <a href="relatorios-menu.html" class="back-link-bottom">&larr; Voltar ao Menu de Relatórios</a>
+    </div>
+</body>
+</html>
