@@ -29,3 +29,15 @@
             <h2>Estatísticas Avançadas</h2>
             <p>Analisar dados com gráficos interativos e detalhados.</p>
         </a>
+    </main>
+
+    <div class="footer-actions">
+        <button id="load-data-btn" class="secondary">Carregar Dados de Teste Massivos</button>
+        <button id="load-creative-data-btn" class="secondary">Carregar Dados de Teste Criativos (500)</button>
+        <button id="clear-data-btn" class="danger-button">Limpar Todos os Dados para Teste</button>
+    </div>
+
+    <!-- 🔥 FIREBASE (CONFIGURAÇÃO CORRETA) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
