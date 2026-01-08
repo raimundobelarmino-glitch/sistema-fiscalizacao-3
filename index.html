@@ -4,86 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Fiscalização de Trânsito</title>
+
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚦</text></svg>">
+
+    <link rel="icon" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+      <text y='0.9em' font-size='90'>🚦</text>
+    </svg>">
 </head>
 
 <body>
-    <header>
-        <h1>Sistema de Fiscalização de Trânsito</h1>
-        <p>Selecione uma opção para continuar</p>
-    </header>
 
-    <main class="home-menu">
-        <a href="cadastro.html" class="menu-button">
-            <h2>Cadastro</h2>
-            <p>Iniciar, continuar ou finalizar o registro de uma operação.</p>
-        </a>
+<header>
+    <h1>Sistema de Fiscalização de Trânsito</h1>
+    <p>Selecione uma opção para continuar</p>
+</header>
 
-        <a href="relatorios-menu.html" class="menu-button">
-            <h2>Relatórios</h2>
-            <p>Visualizar dashboards, estatísticas e relatórios detalhados.</p>
-        </a>
+<main class="home-menu">
 
-        <a href="estatisticas.html" class="menu-button">
-            <h2>Estatísticas Avançadas</h2>
-            <p>Analisar dados com gráficos interativos e detalhados.</p>
-        </a>
-    </main>
+    <a href="cadastro.html" class="menu-button">
+        <h2>Cadastro</h2>
+        <p>Iniciar, continuar ou finalizar o registro de uma operação.</p>
+    </a>
 
-    <div class="footer-actions">
-        <button id="load-data-btn" class="secondary">Carregar Dados de Teste Massivos</button>
-        <button id="load-creative-data-btn" class="secondary">Carregar Dados de Teste Criativos (500)</button>
-        <button id="clear-data-btn" class="danger-button">Limpar Todos os Dados para Teste</button>
-    </div>
+    <a href="relatorios-menu.html" class="menu-button">
+        <h2>Relatórios</h2>
+        <p>Visualizar dashboards, estatísticas e relatórios detalhados.</p>
+    </a>
 
-    <!-- 🔥 FIREBASE (CONFIGURAÇÃO CORRETA) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    <a href="estatisticas.html" class="menu-button">
+        <h2>Estatísticas Avançadas</h2>
+        <p>Analisar dados com gráficos interativos e detalhados.</p>
+    </a>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyArXUzKUn0qCRLY98kxf2c9YB5BEXJzLTI",
-            authDomain: "sistema-fiscalizacao-3.firebaseapp.com",
-            projectId: "sistema-fiscalizacao-3",
-            storageBucket: "sistema-fiscalizacao-3.firebasestorage.app",
-            messagingSenderId: "994230988259",
-            appId: "1:994230988259:web:cd0afe7620ba1eb1784d6"
-        };
+</main>
 
-        const app = initializeApp(firebaseConfig);
-        window.db = getFirestore(app);
-    </script>
-
-    <!-- 🔴 BOTÃO DE TESTE (FORÇA SALVAMENTO ONLINE) -->
-    <button onclick="salvarTeste()" style="margin:20px;padding:12px;font-size:16px">
-        SALVAR TESTE NO FIREBASE
+<div class="footer-actions">
+    <button id="load-data-btn" class="secondary">
+        Carregar Dados de Teste Massivos
     </button>
 
-    <script type="module">
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    <button id="load-creative-data-btn" class="secondary">
+        Carregar Dados de Teste Criativos (500)
+    </button>
 
-        window.salvarTeste = async function () {
+    <button id="clear-data-btn" class="danger-button">
+        Limpar Todos os Dados para Teste
+    </button>
+</div>
+
+<!-- 🔥 FIREBASE CONFIGURAÇÃO -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyArXUzKUn0qCRLY98kxf2c9YB5BEXJzLTI",
+        authDomain: "sistema-fiscalizacao-3.firebaseapp.com",
+        projectId: "sistema-fiscalizacao-3",
+        storageBucket: "sistema-fiscalizacao-3.firebasestorage.app",
+        messagingSenderId: "994230988259",
+        appId: "1:994230988259:web:cd0afe7620ba1eb1784d6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getFirestore(app);
+</script>
+
+<!-- 🔵 BOTÃO DE TESTE FIREBASE -->
+<button
+    style="
+        margin: 25px;
+        padding: 15px 25px;
+        font-size: 16px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    "
+    onclick="salvarTesteFirebase()"
+>
+    SALVAR TESTE NO FIREBASE
+</button>
+
+<!-- 🔥 FUNÇÃO DE SALVAMENTO -->
+<script type="module">
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+    window.salvarTesteFirebase = async function () {
+        try {
             await addDoc(collection(window.db, "teste"), {
                 mensagem: "Salvo clicando no botão",
                 data: new Date()
             });
+
             alert("✅ DADO SALVO NO FIREBASE");
-        };
-    </script>
+            console.log("Dado salvo com sucesso no Firestore");
 
-    <!-- SCRIPT ORIGINAL -->
-    <script type="module" src="./seed.js"></script>
+        } catch (erro) {
+            console.error("Erro ao salvar no Firebase:", erro);
+            alert("❌ ERRO AO SALVAR NO FIREBASE");
+        }
+    };
+</script>
 
-    <script>
-        document.getElementById('clear-data-btn')?.addEventListener('click', () => {
-            if (confirm('Tem certeza de que deseja apagar TODOS os dados salvos? Esta ação é irreversível e destina-se a testes.')) {
-                localStorage.removeItem('fiscalizacaoReports');
-                localStorage.removeItem('fiscalizacaoFinalReports');
-                alert('Todos os dados foram removidos com sucesso.');
-            }
-        });
-    </script>
+<!-- SCRIPT ORIGINAL -->
+<script type="module" src="./seed.js"></script>
+
+<script>
+    document.getElementById('clear-data-btn')?.addEventListener('click', () => {
+        if (confirm('Tem certeza de que deseja apagar TODOS os dados salvos? Esta ação é irreversível e destina-se a testes.')) {
+            localStorage.removeItem('fiscalizacaoReports');
+            localStorage.removeItem('fiscalizacaoFinalReports');
+            alert('Todos os dados foram removidos com sucesso.');
+        }
+    });
+</script>
 
 </body>
 </html>
