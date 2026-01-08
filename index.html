@@ -53,10 +53,17 @@
     </button>
 </div>
 
-<!-- 🔥 FIREBASE CONFIGURAÇÃO -->
+<!-- 🔵 BOTÃO -->
+<button id="btnSalvarFirebase"
+    style="margin:25px;padding:15px 25px;font-size:16px;
+    background:#0d6efd;color:white;border:none;border-radius:8px;cursor:pointer;">
+    SALVAR TESTE NO FIREBASE
+</button>
+
+<!-- 🔥 FIREBASE + FUNÇÃO (UM BLOCO SÓ) -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyArXUzKUn0qCRLY98kxf2c9YB5BEXJzLTI",
@@ -68,56 +75,30 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    window.db = getFirestore(app);
-</script>
+    const db = getFirestore(app);
 
-<!-- 🔵 BOTÃO DE TESTE FIREBASE -->
-<button
-    style="
-        margin: 25px;
-        padding: 15px 25px;
-        font-size: 16px;
-        background: #0d6efd;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-    "
-    onclick="salvarTesteFirebase()"
->
-    SALVAR TESTE NO FIREBASE
-</button>
-
-<!-- 🔥 FUNÇÃO DE SALVAMENTO -->
-<script type="module">
-    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-    window.salvarTesteFirebase = async function () {
+    document.getElementById("btnSalvarFirebase").addEventListener("click", async () => {
         try {
-            await addDoc(collection(window.db, "teste"), {
-                mensagem: "Salvo clicando no botão",
-                data: new Date()
+            await addDoc(collection(db, "teste"), {
+                mensagem: "Teste salvo pelo botão",
+                criadoEm: new Date()
             });
 
-            alert("✅ DADO SALVO NO FIREBASE");
-            console.log("Dado salvo com sucesso no Firestore");
+            alert("✅ SALVO COM SUCESSO NO FIRESTORE");
+            console.log("Documento salvo no Firestore");
 
-        } catch (erro) {
-            console.error("Erro ao salvar no Firebase:", erro);
-            alert("❌ ERRO AO SALVAR NO FIREBASE");
+        } catch (e) {
+            console.error("ERRO:", e);
+            alert("❌ ERRO AO SALVAR (veja o console)");
         }
-    };
+    });
 </script>
-
-<!-- SCRIPT ORIGINAL -->
-<script type="module" src="./seed.js"></script>
 
 <script>
     document.getElementById('clear-data-btn')?.addEventListener('click', () => {
-        if (confirm('Tem certeza de que deseja apagar TODOS os dados salvos? Esta ação é irreversível e destina-se a testes.')) {
-            localStorage.removeItem('fiscalizacaoReports');
-            localStorage.removeItem('fiscalizacaoFinalReports');
-            alert('Todos os dados foram removidos com sucesso.');
+        if (confirm('Tem certeza de que deseja apagar TODOS os dados salvos?')) {
+            localStorage.clear();
+            alert('Dados apagados.');
         }
     });
 </script>
